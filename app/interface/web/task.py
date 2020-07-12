@@ -48,8 +48,7 @@ class Task(mp.Process):
         self.queue_log.put(msg)
 
     def is_dead_for_more_than_5_minutes(self) -> bool:
-        five_min_ago = int(time.time()) - 10
-        # five_min_ago = int(time.time()) - 5 * 60
+        five_min_ago = int(time.time()) - 5 * 60
         if self.ttl is not None and self.ttl > five_min_ago:
             return True
         else:

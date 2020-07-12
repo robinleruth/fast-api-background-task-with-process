@@ -58,14 +58,9 @@ class TaskService:
 
     def _clean_tasks(self):
         while True:
-            five_min_ago = int(time.time()) - 5 * 60
             self.tasks = {
                 _id: task for _id, task in self.tasks.items()
-                # if task.ttl is None or task.ttl > five_min_ago
                 if not task.is_dead_for_more_than_5_minutes()
             }
             # time.sleep(60)
-            time.sleep(10)
-            logger.info('Killing process from task')
-            logger.info(self.tasks)
-            logger.info([i.serialize for i in self.tasks.values()])
+            time.sleep(60)
