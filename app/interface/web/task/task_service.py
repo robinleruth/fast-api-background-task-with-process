@@ -37,8 +37,10 @@ class TaskService:
 
     def get_update(self, _id) -> List:
         lst = []
+        prefix = f'{_id} : '
         while not self.tasks[_id].queue.empty():
-            lst.append(self.tasks[_id].queue.get())
+            res = self.tasks[_id].queue.get()
+            lst.append(res.replace(prefix, ''))
         return lst
 
     def get_result(self, _id):
@@ -66,3 +68,4 @@ class TaskService:
             }
             # time.sleep(60)
             time.sleep(60)
+            logger.info(f'Keys : {[i for i in self.tasks.keys()]}')

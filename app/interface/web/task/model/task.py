@@ -25,7 +25,6 @@ class Task(mp.Process, metaclass=ABCMeta):
         self.tid = tid
         self.queue_log = queue_log
         self.queue = mp.Queue()
-        self.service = service_factory()
 
     @abstractmethod
     def run(self):
@@ -45,7 +44,7 @@ class Task(mp.Process, metaclass=ABCMeta):
 
     def is_dead_for_more_than_5_minutes(self) -> bool:
         five_min_ago = int(time.time()) - 5 * 60
-        if self.ttl is not None and self.ttl > five_min_ago:
+        if self.ttl is not None and self.ttl < five_min_ago:
             return True
         else:
             return False

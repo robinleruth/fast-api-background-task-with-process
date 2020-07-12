@@ -22,11 +22,7 @@ async def some_post():
 async def get_update(_id):
     logger.info(f'Getting update for {_id}')
     task_service = task_service_factory()
-    lst: List = task_service.get_update(_id)
-    if len(lst) == 0:
-        response = ""
-    else:
-        response = '\n'.join(lst)
+    response: List = task_service.get_update(_id)
     return response
 
 
