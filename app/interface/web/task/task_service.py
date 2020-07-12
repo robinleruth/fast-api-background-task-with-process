@@ -8,8 +8,9 @@ from typing import List
 from dataclasses import dataclass
 from dataclasses import field
 
-from app.interface.web.task import Task
 from app.infrastructure.log import logger
+from app.interface.web.task.model.task_factory import task_factory
+from app.interface.web.task.model.task import Task
 
 
 @dataclass
@@ -25,9 +26,10 @@ class TaskService:
         t.daemon = True
         t.start()
 
-    def start(self):
+    def start(self, service_name: str):
         _id = uuid.uuid4().hex
-        t = Task(tid=_id, queue_log=self.queue_log)
+        task_class = task_factory(service_name)
+        t = task_class(tid=_id, queue_log=self.queue_log)
         t.daemon = True
         self.tasks[_id] = t
         t.start()

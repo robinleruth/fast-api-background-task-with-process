@@ -2,8 +2,9 @@ from fastapi import APIRouter
 from fastapi import BackgroundTasks
 from typing import List
 
-from app.interface.web.task_service_factory import task_service_factory
 from app.infrastructure.log import logger
+from app.interface.web.task.task_service_factory import task_service_factory
+from app.domain.services.some_service import SomeService
 
 
 router = APIRouter()
@@ -13,7 +14,7 @@ router = APIRouter()
 async def some_post():
     logger.info('Starting service in background')
     task_service = task_service_factory()
-    _id = task_service.start()
+    _id = task_service.start(SomeService.__name__)
     return _id
 
 

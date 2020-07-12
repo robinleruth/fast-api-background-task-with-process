@@ -1,18 +1,21 @@
 import time
 import multiprocessing as mp
 
+from abc import ABCMeta
+from abc import abstractmethod
+
 from typing import Dict, Any
 
-from app.domain.services.some_service import SomeService
 from app.domain.services.factory import service_factory
+from app.domain.services.abstract_service import AbstractService
 
 
-class Task(mp.Process):
+class Task(mp.Process, metaclass=ABCMeta):
     tid: str
     queue_log: mp.Queue
     queue: mp.Queue
     ttl: int = None
-    service: SomeService # or provided by TaskService
+    service: AbstractService # or provided by TaskService
     # if not provided by TaskService, Task might actually be an abstract class
     # and run() has to polymorphism for each Service !
     result: Any = None
@@ -24,16 +27,9 @@ class Task(mp.Process):
         self.queue = mp.Queue()
         self.service = service_factory()
 
+    @abstractmethod
     def run(self):
-        self._log('info', 'sleep_for_2')
-        self.service.sleep_for_2()
-        self._log('info', 'sleep_for_5')
-        self.service.sleep_for_5()
-        self._log('info', 'sleep_for_3')
-        self.service.sleep_for_3()
-        self.ttl = time.time()
-        self.result = 'Done !'
-        self._log('info', 'Done', True)
+        pass
 
     def _log(self, level, message, done=False):
         msg = {

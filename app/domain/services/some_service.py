@@ -2,8 +2,10 @@ import time
 
 from dataclasses import dataclass
 
+from app.domain.services.abstract_service import AbstractService
 
-class SomeService:
+
+class SomeService(AbstractService):
     def sleep_for_2(self):
         time.sleep(2)
 

@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from app.interface.web.task_service import TaskService
+from app.interface.web.task.task_service import TaskService
 
 
 @lru_cache(maxsize=1)
