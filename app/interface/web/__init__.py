@@ -15,6 +15,10 @@ from .controllers import some_controller
 api.include_router(some_controller.router,
                    prefix='/api/v1/some_controller',
                    tags=['some_controller'])
+from .controllers import celery_controller
+api.include_router(celery_controller.router,
+                   prefix='/api/v1/celery_controller',
+                   tags=['celery_controller'])
 
 
 api.add_middleware(
