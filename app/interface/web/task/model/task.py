@@ -15,9 +15,7 @@ class Task(mp.Process, metaclass=ABCMeta):
     queue_log: mp.Queue
     queue: mp.Queue
     ttl: int = None
-    service: AbstractService # or provided by TaskService
-    # if not provided by TaskService, Task might actually be an abstract class
-    # and run() has to polymorphism for each Service !
+    service: AbstractService
     result: Any = None
 
     def __init__(self, tid, queue_log):
