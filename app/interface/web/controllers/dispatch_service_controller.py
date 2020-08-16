@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import status
@@ -23,7 +25,10 @@ async def process_clients(client: Client,
              response_model=List[Output])
 async def process_clients(clients: List[Client],
                           service: DispatchService = Depends(DispatchService)):
-    res = service.process_clients(clients)
+    loop = asyncio.get_event_loop()
+    def temp():
+        return service.process_clients(clients)
+    res = await loop.run_in_executor(None, temp)
     return res
 
 
