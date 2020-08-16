@@ -11,6 +11,7 @@ from app.domain.services.cache_service.db_connector import DbConnector
 from app.domain.model.some_model import SomeModel
 from app.infrastructure.config import app_config
 from app.infrastructure.config import TestConfig
+from app.infrastructure.log import logger
 
 
 @dataclass
@@ -21,7 +22,9 @@ class CacheService:
     # create Cache service as a bean
 
     def __post_init__(self):
+        logger.info('Init Cache Service')
         if app_config is not TestConfig:
+            logger.info('Launch refresh every minute')
             Thread(target=self.refresh).start()
 
     def get_by_date(self, date: date) -> List[SomeModel]:
