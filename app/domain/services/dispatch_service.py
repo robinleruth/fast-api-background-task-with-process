@@ -1,3 +1,5 @@
+import time
+
 from typing import List
 from celery import Task
 
@@ -11,7 +13,7 @@ class DispatchService:
         return async_task(client)
 
     def process_clients(self, clients: List[Client]) -> List[Output]:
-        res = async_task.chunks(zip(clients), 10).group().apply_async(queue='high_priority')
+        res = async_task.chunks(zip(clients), 2).group().apply_async(queue='high_priority')
         res = res.get()
         flattened = [val for sublist in res for val in sublist]
         return flattened
@@ -24,4 +26,5 @@ class DispatchService:
 
 @celery.task()
 def async_task(client: Client) -> Output:
+    time.sleep(1)
     return Output(name=client.name, number_of_trades=len(client.trades))
