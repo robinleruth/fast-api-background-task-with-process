@@ -16,6 +16,12 @@ class DispatchService:
         flattened = [val for sublist in res for val in sublist]
         return flattened
 
+    def process_clients_sync(self, clients: List[Client]) -> List[Output]:
+        res = async_task.chunks(zip(clients), 10).apply_async(queue='high_priority')
+        res = res.get()
+        flattened = [val for sublist in res for val in sublist]
+        return flattened
+
 @celery.task()
 def async_task(client: Client) -> Output:
     return Output(name=client.name, number_of_trades=len(client.trades))

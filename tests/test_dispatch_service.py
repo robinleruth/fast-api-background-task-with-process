@@ -48,6 +48,34 @@ class TestDispatchService(unittest.TestCase):
         self.assertEqual(1, res[1].number_of_trades)
         self.assertEqual(3, res[len(res)-1].number_of_trades)
 
+    def test_process_multiple_clients_sync(self):
+        print('test_process_multiple_clients_sync')
+        lst = []
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="aa", trades=[Trade(ticker='AAPL', price=20.2)]))
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20)]))
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20)]))
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20)]))
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20)]))
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20)]))
+        lst.append(Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2), Trade(ticker='GOOG', price=20), Trade(ticker='GOOG', price=20)]))
+        res = self.service.process_clients_sync(lst)
+        self.assertEqual(2, res[0].number_of_trades)
+        self.assertEqual(1, res[1].number_of_trades)
+        self.assertEqual(3, res[len(res)-1].number_of_trades)
+
     def test_async_task(self):
         c = Client(name="foo", trades=[Trade(ticker='AAPL', price=20.2),
                                        Trade(ticker='GOOG', price=20)])

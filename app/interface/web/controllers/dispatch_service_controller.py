@@ -25,3 +25,19 @@ async def process_clients(clients: List[Client],
                           service: DispatchService = Depends(DispatchService)):
     res = service.process_clients(clients)
     return res
+
+
+@router.post('/byClientsCelerySync', status_code=status.HTTP_201_CREATED,
+             response_model=List[Output])
+async def process_clients(clients: List[Client],
+                          service: DispatchService = Depends(DispatchService)):
+    res = service.process_clients_sync(clients)
+    return res
+
+
+@router.post('/byClientsNotCelerySync', status_code=status.HTTP_201_CREATED,
+             response_model=List[Output])
+async def process_clients(clients: List[Client],
+                          service: DispatchService = Depends(DispatchService)):
+    res = [service.process_client(client) for client in clients]
+    return res
