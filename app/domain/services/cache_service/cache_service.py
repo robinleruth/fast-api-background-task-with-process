@@ -21,6 +21,8 @@ class CacheService:
     # InitVar boolean Redis is possible ? use redis : use dict
     # create Cache service as a bean
 
+    PREFIX = ''
+
     def __post_init__(self):
         logger.info('Init Cache Service')
         if app_config is not TestConfig:
@@ -29,6 +31,7 @@ class CacheService:
 
     def get_by_date(self, date: date) -> List[SomeModel]:
         key = date.strftime('%Y-%m-%d')
+        key = self.PREFIX + key
         if key not in self.models_by_date:
             self.models_by_date[key] = self._get_from_connector(key)
         return self._get_from_dict(key)

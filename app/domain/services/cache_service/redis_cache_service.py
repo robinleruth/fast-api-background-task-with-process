@@ -12,6 +12,8 @@ from app.domain.services.cache_service.cache_service import CacheService
 class RedisCacheService(CacheService):
     keys: Set[str] = field(default_factory=set)
 
+    PREFIX = 'MODEL:'
+
     def __post_init__(self):
         super().__post_init__()
         self.models_by_date = redis.Redis()
