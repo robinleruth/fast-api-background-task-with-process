@@ -17,13 +17,12 @@ router = APIRouter()
 @router.post('/', status_code=202)
 async def some_post():
     logger.info('Starting service in background')
-    task = some_celery_task.apply_async(args=('first_args', ), countdown=10) # queue = '', countodnw=10 -> executed at the earliest 10 seconds after
+    task = some_celery_task.apply_async(args=('first_args', ), countdown=2) # queue = '', countodnw=10 -> executed at the earliest 10 seconds after
     return task.id
 
 
 @router.get('/getUpdate', status_code=206)
 async def get_update_or_result(_id, response: Response):
-    logger.info(f'Getting update for {_id}')
     task = some_celery_task.AsyncResult(_id)
     if task.state == states.PENDING:
         raise HTTPException(status_code=404, detail="Task still pending, awaiting a worker to be processed")
@@ -37,6 +36,7 @@ async def get_update_or_result(_id, response: Response):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return task.info
     response.status_code = status.HTTP_200_OK
-    return task.get() # propagate = False if i don't want the errors to propagate
+    result = task.get()
+    return result # propagate = False if i don't want the errors to propagate
 # res.failed() and res.successful() gives True or False
 # PENDING -> STARTED -> SUCCESS
