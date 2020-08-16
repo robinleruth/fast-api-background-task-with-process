@@ -27,3 +27,4 @@ class TestConfig(Config):
 
 app_config = TestConfig if os.environ['APP_ENV'].upper() == 'TEST' else Config
 
+print(app_config)
