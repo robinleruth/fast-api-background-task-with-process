@@ -15,6 +15,8 @@ class Config:
     LOG_FOLDER = os.path.join(BASEDIR, 'logs')
     LOG_FILENAME = 'app.log'
     LOG_FILE_PATH = os.path.join(LOG_FOLDER, LOG_FILENAME)
+    CELERY_BROKER = 'redis://localhost:6379/0'
+    CELERY_BACKEND = 'redis://localhost:6379/0'
 
 
 class TestConfig(Config):
