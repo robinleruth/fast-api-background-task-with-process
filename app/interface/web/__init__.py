@@ -19,6 +19,10 @@ from .controllers import celery_controller
 api.include_router(celery_controller.router,
                    prefix='/api/v1/celery_controller',
                    tags=['celery_controller'])
+from .controllers import dispatch_service_controller
+api.include_router(dispatch_service_controller.router,
+                   prefix='/api/v1/dispatch_service_controller',
+                   tags=['dispatch_service_controller'])
 
 
 api.add_middleware(
