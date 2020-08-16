@@ -18,7 +18,7 @@ from app.infrastructure.log import logger
 class CacheService:
     connector: DbConnector
     models_by_date: Dict[str, List[SomeModel]] = field(default_factory=dict)
-    # IntVar boolean Redis is possible ? use redis : use dict
+    # InitVar boolean Redis is possible ? use redis : use dict
     # create Cache service as a bean
 
     def __post_init__(self):
@@ -30,11 +30,17 @@ class CacheService:
     def get_by_date(self, date: date) -> List[SomeModel]:
         key = date.strftime('%Y-%m-%d')
         if key not in self.models_by_date:
-            self.models_by_date[key] = self.connector.get_by_date(key)
-        return self.models_by_date[key]
+            self.models_by_date[key] = self._get_from_connector(key)
+        return self._get_from_dict(key)
 
     def refresh(self):
         while True:
             for d in self.models_by_date:
-                self.models_by_date[d] = self.connector.get_by_date(key)
+                self.models_by_date[d] = self._get_from_connector(key)
             time.sleep(60)
+
+    def _get_from_connector(self, key):
+        return self.connector.get_by_date(key)
+
+    def _get_from_dict(self, key):
+        return self.models_by_date[key]
