@@ -35,9 +35,12 @@ class CacheService:
 
     def refresh(self):
         while True:
-            for d in self.models_by_date:
-                self.models_by_date[d] = self._get_from_connector(key)
+            self._refresh_cache()
             time.sleep(60)
+
+    def _refresh_cache(self):
+        for d in self.models_by_date:
+            self.models_by_date[d] = self._get_from_connector(d)
 
     def _get_from_connector(self, key):
         return self.connector.get_by_date(key)

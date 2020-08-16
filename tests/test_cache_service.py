@@ -22,6 +22,7 @@ class TestCacheService(unittest.TestCase):
         self.service = CacheService(connector)
         lst = self.service.get_by_date(date(2020, 3, 30))
         print(lst)
+        self.service._refresh_cache()
 
     def test_redis_service(self):
         connector = MockDBConnector()
@@ -29,6 +30,7 @@ class TestCacheService(unittest.TestCase):
         self.service = RedisCacheService(connector)
         lst = self.service.get_by_date(date(2020, 3, 30))
         print(lst)
+        self.service._refresh_cache()
 
 
 if __name__ == '__main__':

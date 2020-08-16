@@ -23,6 +23,10 @@ from .controllers import dispatch_service_controller
 api.include_router(dispatch_service_controller.router,
                    prefix='/api/v1/dispatch_service_controller',
                    tags=['dispatch_service_controller'])
+from .controllers import redis_cache_service_controller
+api.include_router(redis_cache_service_controller.router,
+                   prefix='/api/v1/redis_cache_service_controller',
+                   tags=['redis_cache_service_controller'])
 
 
 api.add_middleware(
