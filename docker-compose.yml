@@ -15,6 +15,7 @@ services:
       context: "."
     depends_on:
       - "redis"
+      - "worker"
     env_file:
       - ".env"
     healthcheck:
@@ -33,7 +34,7 @@ services:
   worker:
     build:
       context: "."
-    command: celery worker -A app.infrastructure.celery --loglevel=info -S worker_state_db -Q default,low_priority,high_priority
+    command: ./celery.sh
     depends_on:
       - "redis"
     env_file:
