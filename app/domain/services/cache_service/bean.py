@@ -8,7 +8,7 @@ from app.infrastructure.db_connector.mock_db_connector import MockDBConnector
 from app.infrastructure.log import logger
 
 
-@lru_cache
+@lru_cache()
 def get_cache_service() -> CacheService:
     connector = MockDBConnector()
     r = redis.Redis()
