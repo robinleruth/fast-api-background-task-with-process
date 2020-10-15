@@ -34,7 +34,7 @@ services:
   worker:
     build:
       context: "."
-    command: ./celery.sh
+      dockerfile: Dockerfile-celery
     depends_on:
       - "redis"
     env_file:

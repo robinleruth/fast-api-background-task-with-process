@@ -17,12 +17,12 @@ RUN venv/bin/pip install -r requirements.txt
 
 COPY app app
 COPY tests tests
-COPY api.py run_app.sh ./
+COPY api.py celery.sh ./
 
-RUN chmod +x run_app.sh
+RUN chmod +x celery.sh
 
 RUN chown -R myApp:myApp ./
 USER myApp
-EXPOSE 8000
+EXPOSE 5000
 
-ENTRYPOINT ["./run_app.sh"]
+ENTRYPOINT ["./celery.sh"]
