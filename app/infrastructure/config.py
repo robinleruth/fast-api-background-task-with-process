@@ -20,6 +20,11 @@ class Config:
     CELERY_CREATE_MISSING_QUEUES = True
 
 
+class DockerConfig(Config):
+    CELERY_BROKER = 'redis://redis:6379/0'
+    CELERY_BACKEND = 'redis://redis:6379/0'
+
+
 class TestConfig(Config):
     SQL_URI = 'sqlite:///temp.db'
     CELERY_ALWAYS_EAGER = True
